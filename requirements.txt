@@ -4,3 +4,11 @@ itsdangerous==1.1.0
 Jinja2==2.10.3
 MarkupSafe==1.1.1
 Werkzeug==0.16.0
+marshmallow-sqlalchemy
+flask_sqlalchemy
+psycopg2-binary==2.9.9
+psycopg2==2.9.9
+gunicorn
+SQLAlchemy==1.4
+Flask-RESTful
+python-dotenv

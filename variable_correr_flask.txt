@@ -1,0 +1,14 @@
+ $env:FLASK_APP="application.py"
+
+y luego comando
+
+flask run
+
+y mirar en localhost:5000
+
+python -m venv venv  
+
+
+
+docker run --name some-postgres -p 5433:5432 -e POSTGRES_PASSWORD=colombia123 -d postgres
+

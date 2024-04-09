@@ -1,16 +1,38 @@
-import funtions as f
 from flask import Flask, jsonify
+from .models import db
+from flask_restful import Api
+from .views import BlackListView
+from dotenv import load_dotenv
+import os
 
-application = Flask(__name__)
-data = f.load_file('./heroes.csv')
 
-@application.route("/")
-def index():
-    return jsonify(data)
+def create_app(config_name):
+    application = Flask(__name__)    
+    load_dotenv('env.development')
+    db_user = os.environ.get("DB_USER")
+    db_password = os.environ.get("DB_PASSWORD")
+    db_host = os.environ.get("DB_HOST")
+    db_port = os.environ.get("DB_PORT")
+    db_name = os.environ.get("DB_NAME")
+    db_uri = f"postgresql+psycopg2://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+    application.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    return application
 
-@application.route("/<string:id>")
-def heroe(id):
-    return jsonify(data[id])
+application = create_app('default')
+
+
+db.init_app(application)
+
+api = Api(application)
+
+api.add_resource(BlackListView, '/blacklists')
+
 
 if __name__ == "__main__":
-    application.run(port = 5000, debug = True)
+    with application.app_context():
+        db.create_all()
+        application.run(port = 3000, debug = True)
+        app_context = application.app_context()
+        app_context.push()
+    
