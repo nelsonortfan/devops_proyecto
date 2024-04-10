@@ -29,6 +29,7 @@ api = Api(application)
 api.add_resource(BlackListView, '/blacklists')
 
 
+
 if __name__ == "__main__":
     with application.app_context():
         db.create_all()

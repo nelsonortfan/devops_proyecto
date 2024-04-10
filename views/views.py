@@ -25,5 +25,16 @@ class BlackListView(Resource):
          return {'mensaje': 'Token no autorizado'}, 401
 
           
+   
+   
    def get(self):
-      return {'mensaje':'metodo get OK'}, 200
+      email = request.args.get('email')
+      blacklist_entry = Blacklist.query.filter_by(email=email).first()
+      
+      if blacklist_entry:
+         # Email encontrado en la lista negra
+         return {'en_lista_negra': True, 'razon': blacklist_entry.blocked_reason}, 200
+      else:
+         # Email no está en la lista negra
+         return {'en_lista_negra': False, 'razon': 'N/A'}, 200
+      
